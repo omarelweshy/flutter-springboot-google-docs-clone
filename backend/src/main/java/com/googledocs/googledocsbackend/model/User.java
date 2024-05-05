@@ -12,6 +12,10 @@ public class User {
   private String email;
   private String profilePic;
 
+  public String getId() {
+    return id;
+  }
+
   public void setName(String name) {
     this.name = name;
   }
