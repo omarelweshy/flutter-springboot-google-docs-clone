@@ -42,13 +42,14 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Google Docs',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
         final user = ref.watch(userProvider);
+        print(user);
         if (user != null && user.token.isNotEmpty) {
           return loggedInRoute;
         }

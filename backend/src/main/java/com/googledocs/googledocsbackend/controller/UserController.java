@@ -26,9 +26,9 @@ public class UserController {
             String token = JwtUtil.generateToken(user.getEmail());
             Map<String, String> data = new HashMap<>();
             data.put("token", token);
-            data.put("id", user.getId());
-            data.put("name", user.getName());
-            data.put("profilePic", user.getProfilePic());
+            data.put("id", existingUser.get().getId());
+            data.put("name", existingUser.get().getName());
+            data.put("profilePic", existingUser.get().getProfilePic());
             return new ResponseEntity<>(data, HttpStatus.OK);
         } else {
             User savedUser = userRepository.save(user);
@@ -44,9 +44,12 @@ public class UserController {
 
     @GetMapping("/")
     public ResponseEntity<Object> getUserById(@RequestHeader("x-auth-token") String token) {
-        Boolean auth = JwtUtil.validateToken(token);
-        System.out.println(auth);
-        return new ResponseEntity<>(HttpStatus.OK);
+        String userEmail = JwtUtil.getEmailFromToken(token);
+        Optional<User> reqUser = userRepository.findByEmail(userEmail);
+        Map<String, Object> data = new HashMap<>();
+        data.put("user", reqUser.get());
+        data.put("token", token);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
 }

@@ -29,6 +29,7 @@ public class DocController {
         Optional<User> reqUser = userRepository.findByEmail(userEmail);
         Doc newDoc = docRepository.save(doc);
         newDoc.setUid(reqUser.get().getId());
+        docRepository.save(newDoc);
         return new ResponseEntity<>(newDoc, HttpStatus.OK);
     }
 
@@ -48,7 +49,7 @@ public class DocController {
     public ResponseEntity<Object> createDoc(@PathVariable String id, @RequestHeader("x-auth-token") String token) {
         String userEmail = JwtUtil.getEmailFromToken(token);
         Optional<User> reqUser = userRepository.findByEmail(userEmail);
-        Doc doc = docRepository.findById(Long.parseLong(id));
+        Optional<Doc> doc = docRepository.findById(id);
         System.out.println(doc);
         return new ResponseEntity<>(doc, HttpStatus.OK);
     }
