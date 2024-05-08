@@ -50,7 +50,6 @@ public class DocController {
         String userEmail = JwtUtil.getEmailFromToken(token);
         Optional<User> reqUser = userRepository.findByEmail(userEmail);
         Optional<Doc> doc = docRepository.findById(id);
-        System.out.println(doc);
         return new ResponseEntity<>(doc, HttpStatus.OK);
     }
 }

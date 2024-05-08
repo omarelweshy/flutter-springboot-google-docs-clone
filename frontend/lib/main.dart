@@ -49,7 +49,6 @@ class _MyAppState extends ConsumerState<MyApp> {
       ),
       routerDelegate: RoutemasterDelegate(routesBuilder: (context) {
         final user = ref.watch(userProvider);
-        print(user);
         if (user != null && user.token.isNotEmpty) {
           return loggedInRoute;
         }
