@@ -20,7 +20,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static String getUsernameFromToken(String token) {
+    public static String getEmailFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
