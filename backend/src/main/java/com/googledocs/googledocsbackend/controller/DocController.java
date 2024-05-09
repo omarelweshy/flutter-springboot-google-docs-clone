@@ -45,6 +45,21 @@ public class DocController {
         }
     }
 
+    @PostMapping("/doc/title")
+    public ResponseEntity<Object> updateDocTitle(@RequestBody Doc doc, @RequestHeader("x-auth-token") String token) {
+        String userEmail = JwtUtil.getEmailFromToken(token);
+        Optional<User> reqUser = userRepository.findByEmail(userEmail);
+        Optional<Doc> toUpdateDocOptional = docRepository.findById(doc.getId());
+        if (toUpdateDocOptional.isPresent()) {
+            Doc toUpdateDoc = toUpdateDocOptional.get();
+            toUpdateDoc.setTitle(doc.getTitle());
+            docRepository.save(toUpdateDoc);
+            return new ResponseEntity<>(toUpdateDoc, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Document not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/doc/{id}")
     public ResponseEntity<Object> createDoc(@PathVariable String id, @RequestHeader("x-auth-token") String token) {
         String userEmail = JwtUtil.getEmailFromToken(token);
