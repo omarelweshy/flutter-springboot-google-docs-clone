@@ -3,13 +3,13 @@ package com.googledocs.googledocsbackend;
 import java.util.*;
 
 
-public class MessageData {
+public class DocData {
     private String room;
     private List delta;
 
-    public MessageData() {}
+    public DocData() {}
 
-    public MessageData(String room, List delta) {
+    public DocData(String room, List delta) {
         this.room = room;
         this.delta = delta;
     }
