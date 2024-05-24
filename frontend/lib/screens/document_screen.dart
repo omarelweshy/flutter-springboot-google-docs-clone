@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:docs_clone_flutter/colors.dart';
 import 'package:docs_clone_flutter/common/widgets/loader.dart';
 import 'package:docs_clone_flutter/models/document_model.dart';
@@ -29,6 +28,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
   quill.QuillController? _controller;
   ErrorModel? errorModel;
   SocketRepository socketRepository = SocketRepository();
+  bool _isRemoteChange = false;
 
   @override
   void initState() {
@@ -37,11 +37,13 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     fetchDocumentData();
 
     socketRepository.changeListener((data) {
+      _isRemoteChange = true;
       _controller?.compose(
         quill.Delta.fromJson(data['delta']),
         _controller?.selection ?? const TextSelection.collapsed(offset: 0),
         quill.ChangeSource.REMOTE,
       );
+      _isRemoteChange = false;
     });
 
     Timer.periodic(const Duration(seconds: 2), (timer) {
@@ -72,7 +74,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
     }
 
     _controller!.document.changes.listen((event) {
-      if (event.item3 == quill.ChangeSource.LOCAL) {
+      if (event.item3 == quill.ChangeSource.LOCAL && !_isRemoteChange) {
         Map<String, dynamic> map = {
           'delta': event.item2,
           'room': widget.id,
