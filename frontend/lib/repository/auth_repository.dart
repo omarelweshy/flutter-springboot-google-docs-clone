@@ -38,7 +38,6 @@ class AuthRepository {
     );
     try {
       final user = await _googleSignIn.signIn();
-      print(user);
       if (user != null) {
         final userAcc = UserModel(
           email: user.email,
@@ -51,7 +50,6 @@ class AuthRepository {
         var res = await _client.post(Uri.parse('$host/api/signup'), body: userAcc.toJson(), headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         });
-        print(res);
         switch (res.statusCode) {
           case 200:
             final newUser = userAcc.copyWith(

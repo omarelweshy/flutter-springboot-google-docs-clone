@@ -32,10 +32,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
     getUserData();
     _socketRepository.connect();
-    _socketRepository.onChanges((data) {
-      print('Changes received: $data');
-    });
-
   }
 
   void getUserData() async {
