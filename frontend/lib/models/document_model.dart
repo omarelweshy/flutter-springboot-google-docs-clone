@@ -30,7 +30,7 @@ class DocumentModel {
       uid: map['uid'] ?? '',
       content: List.from(map['content'] ?? []),
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-      id: map['_id'] ?? '',
+      id: map['id'] ?? '',
     );
   }
 
